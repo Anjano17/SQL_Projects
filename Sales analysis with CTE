@@ -1,0 +1,120 @@
+--// CTE FUNCTIONS??  --COMMON TEXT EXPERSSION//-
+
+
+With cte_table as
+	(
+			--Anchor record
+			Union
+			
+			--Recursive Statement
+			)
+		Select * from cte_table
+
+
+--///Create new Example for CTE//
+
+Create table Sales 
+	(	Store_id int,
+		Store_name char(30),
+		Products char(40),
+		Qty int,
+		Cost BIGint
+		)
+
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023001,'SRS_st_001','apple_001',3,150000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023001,'SRS_st_001','apple_001',2,50000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023001,'SRS_st_001','apple_001',1,100000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023002,'SKS_st_001','apple_001',4,250000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023002,'SKS_st_001','apple_001',3,150000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023002,'SKS_st_001','apple_001',5,550000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023002,'SKS_st_001','apple_001',2,100000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023003,'Rukku_st_001','apple_001',6,400000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023003,'Rukku_st_001','apple_001',3,150000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023003,'Rukku_st_001','apple_001',2,100000)
+Insert into Sales (Store_id,Store_name,Products,Qty,Cost) Values (2023004,'trupples_st_001','apple_001',1,100000)
+
+Select * from Sales
+
+--//Calculation of the Total Sales for each store// --Total Sales
+Select Store_id,Store_name,SUM(cost) Total_Sales
+from Sales
+group by Store_id,Store_name
+order by Store_id;
+
+
+--//Calculation of the avg sales of the each store// --Avg sales
+
+Select avg(Total_Sales) Avg_Sales
+from (Select Store_id,SUM(cost) Total_Sales
+		from Sales
+		group by Store_id) X;
+
+
+--//Calculation of the which store make sales higher then avg sales// which store did best sales
+
+With Total_Sales (Store_id,Total_per_st_Sales) as
+			(Select s.Store_id,SUM(cost) Total_per_st_Sales
+					from Sales s
+					group by Store_id), 
+	Avg_Sales (Avg_per_st_Sales) as 
+				(Select avg(Total_per_st_Sales) Avg_per_st_Sales
+					from Total_Sales)
+Select* 
+from Total_Sales TS
+join Avg_Sales  AVS
+on TS.Total_per_st_Sales > AVS.Avg_per_st_Sales;
+
+--//without having the with clause//--
+
+	--//Its including the subquries //--
+Select * 
+from (Select Store_id,SUM(cost) Total_per_st_Sales
+		from Sales
+		group by Store_id) Total_Sales
+join (Select avg(Total_Sales) Avg_st_Sales
+		from (Select Store_id,SUM(cost) Total_Sales
+					from Sales
+					group by Store_id)X) Avg_Sales
+on Total_Sales.Total_per_st_Sales >Avg_Sales.Avg_st_Sales;
+
+--//Calculation of the Total Sales for each store// --Total Sales
+Select Store_id,Store_name,SUM(cost) Total_Sales
+from Sales
+group by Store_id,Store_name
+order by Store_id;
+
+
+--//Calculation of the avg sales of the each store// --Avg sales
+
+Select avg(Total_Sales) Avg_salary
+from (Select Store_id,SUM(cost) Total_Sales
+		from Sales
+		group by Store_id) X;
+
+
+--//Calculation of the which store make sales higher then avg sales// which store did best sales
+
+With Total_Sales (Store_id,Total_per_st_Sales) as
+			(Select s.Store_id,SUM(cost) Total_per_st_Sales
+					from Sales s
+					group by Store_id), 
+	Avg_Sales (Avg_per_st_Sales) as 
+				(Select avg(Total_per_st_Sales) Avg_per_st_Sales
+					from Total_Sales)
+Select* 
+from Total_Sales TS
+join Avg_Sales  AVS
+on TS.Total_per_st_Sales > AVS.Avg_per_st_Sales;
+
+--//without having the with clause//--
+
+	--//Its including the subquries //--
+Select * 
+from (Select Store_id,SUM(cost) Total_per_st_Sales
+		from Sales
+		group by Store_id) Total_Sales
+join (Select avg(Total_Sales) Avg_st_Sales
+		from (Select Store_id,SUM(cost) Total_Sales
+					from Sales
+					group by Store_id)X) Avg_Sales
+on Total_Sales.Total_per_st_Sales >Avg_Sales.Avg_st_Sales;
