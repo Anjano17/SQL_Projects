@@ -1,0 +1,81 @@
+Create table Employees
+	(
+		Emp_id int Primary key identity(2000,1),
+		Emp_name varchar(20),
+		Emp_dept_id int,
+		Emp_Address varchar(50),
+		Emp_salary int,
+		)
+Select * from Employees
+--//insert the data/-
+
+INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Spider_man',1,'California',60000)
+INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Rakesh',1,'Gadaga',61000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Suprith',2,'Shivamoga',62000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Mamatha',2,'Kengeri mori',63000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Muzzamil',3,'Shivaji_nagar',64000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Shankar',3,'Mangaluru',65000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Swapna',4,'Hosadurga',66000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Srinivas',4,'Bengaluru',67000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Pradip',5,'Odisha',63000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Manikanta',5,'Tamil_nadu',65000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('kapi',6,'Shivamoga',62000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
+Values('Sakshi',6,'Bihar',66000)
+
+--//Create table of Dept //
+
+Create table Departments
+	(
+		Dep_id int primary key identity (1,1),
+		Dep_name varchar(20)
+		)
+
+	Drop table Departments;
+	Select * from Departments
+--// Insert the data into dep table//
+
+Insert into Departments (Dep_name) Values ('Data_Processing')
+Insert into Departments (Dep_name) Values ('Human_Resource')
+Insert into Departments (Dep_name) Values ('Team_maneger')
+Insert into Departments (Dep_name) Values ('Dep_Head')
+Insert into Departments (Dep_name) Values ('IT')
+Insert into Departments (Dep_name) Values ('Accounts')
+
+--//Join the both table//-
+
+Select * from Employees
+Inner join Departments on Employees.Emp_dept_id = Departments.Dep_id;
+
+
+--//Return employee record and max salary/
+Select * from Employees
+Where Emp_salary= (Select max(Emp_salary) from Employees)
+
+--//Return highest salary in employee table/
+Select max(Emp_salary) as highest_salary from Employees
+
+--//Return 2nd highest salary in employee table/
+Select max( Emp_salary) as Secnd_salary
+from Employees
+Where Emp_salary Not In (Select max(Emp_salary) from Employees)
+
+--//Select range of employees based on id/
+Select *
+from Employees
+Where Emp_id between 2005 and 2015
+
+--//Return on employee's with the highest salary and the employees department name/
+Select e.Emp_name, D.Dep_name, e.Emp_salary
+from Employees e
+Inner join Departments D on e.Emp_dept_id = D.Dep_id
+Where Emp_salary =(Select max(Emp_salary) from Employees);
+
+--//return highest salary, Emp_name, Dep_name for each department/
+
+Select e.Emp_name, D.Dep_name, e.Emp_salary
+from Employees e
+Inner join Departments D on e.Emp_dept_id = D.Dep_id
+Where Emp_salary in (Select max(Emp_salary) from Employees
+Group by Emp_Dep_id)
