@@ -1,3 +1,5 @@
+-- we are going to create the employees table along with department table and join the table --
+
 Create table Employees
 	(
 		Emp_id int Primary key identity(2000,1),
@@ -7,7 +9,8 @@ Create table Employees
 		Emp_salary int,
 		)
 Select * from Employees
---//insert the data/-
+
+--//insert the data into employees table/-
 
 INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
 Values('Spider_man',1,'California',60000)
@@ -24,7 +27,7 @@ Values('Manikanta',5,'Tamil_nadu',65000)INSERT INTO Employees (Emp_name,Emp_dept
 Values('kapi',6,'Shivamoga',62000)INSERT INTO Employees (Emp_name,Emp_dept_id,Emp_Address,Emp_salary)
 Values('Sakshi',6,'Bihar',66000)
 
---//Create table of Dept //
+--//Create table of Department //
 
 Create table Departments
 	(
@@ -32,9 +35,14 @@ Create table Departments
 		Dep_name varchar(20)
 		)
 
+--If you want delete the table --
+
 	Drop table Departments;
+
+--If you want open the department table--
 	Select * from Departments
---// Insert the data into dep table//
+
+--// Insert the data into department table//
 
 Insert into Departments (Dep_name) Values ('Data_Processing')
 Insert into Departments (Dep_name) Values ('Human_Resource')
@@ -43,7 +51,7 @@ Insert into Departments (Dep_name) Values ('Dep_Head')
 Insert into Departments (Dep_name) Values ('IT')
 Insert into Departments (Dep_name) Values ('Accounts')
 
---//Join the both table//-
+--//Join the both table(using inner join to join the table)//-
 
 Select * from Employees
 Inner join Departments on Employees.Emp_dept_id = Departments.Dep_id;
@@ -72,7 +80,7 @@ from Employees e
 Inner join Departments D on e.Emp_dept_id = D.Dep_id
 Where Emp_salary =(Select max(Emp_salary) from Employees);
 
---//return highest salary, Emp_name, Dep_name for each department/
+--//Return highest salary, Emp_name, Dep_name for each department/
 
 Select e.Emp_name, D.Dep_name, e.Emp_salary
 from Employees e
