@@ -1,0 +1,44 @@
+--//creating the cadidates table//-
+
+create table Cadidates
+	( id int primary key identity (1,1),
+		gender varchar(10),
+		age int,
+		party varchar(20)
+		)
+insert into Cadidates(gender,age,party) Values('M',55,'Democratic')
+insert into Cadidates(gender,age,party) Values('M',51,'Democratic')
+insert into Cadidates(gender,age,party) Values('F',62,'Democratic')
+insert into Cadidates(gender,age,party) Values('M',60,'Republic')
+insert into Cadidates(gender,age,party) Values('F',61,'Republic')
+insert into Cadidates(gender,age,party) Values('F',58,'Republic')
+select *from Cadidates
+
+--//Creating results table//--
+
+Create table Results
+		( Constituency_id int,
+			candidate_id int,
+			Votes bigint
+			)
+insert into Results (Constituency_id,candidate_id,Votes) values(1,1,847529)
+insert into Results (Constituency_id,candidate_id,Votes) values(1,4,283409)
+insert into Results (Constituency_id,candidate_id,Votes) values(2,2,293841)
+insert into Results (Constituency_id,candidate_id,Votes) values(2,5,394385)
+insert into Results (Constituency_id,candidate_id,Votes) values(3,3,429084)
+insert into Results (Constituency_id,candidate_id,Votes) values(3,6,303890)
+select *from Results R
+join Cadidates c on R.candidate_id=c.id
+
+
+---//output should be democratic 2 and republic 1//--
+
+
+with cte as
+	(select party,Constituency_id,Votes,candidate_id,rank() over (partition by Constituency_id order by votes desc) as rnk	
+	from Results R
+	join Cadidates c on R.candidate_id=c.id)
+Select concat(party,'  ',count(1)) as party_won
+from cte
+where rnk=1
+group by party
